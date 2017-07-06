@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
+import {Link} from 'react-router';
 
 export class Repos extends Component {
   render() {
     return (
       <div>
-        <a id={this.props.index} onClick={this.props.onClick}>{this.props.repo.name}</a>
+        <Link id={this.props.index} to={`/${this.props.repo.name}`} onClick={this.props.onClick}>{this.props.repo.name}</Link>
       </div>
     );
   }
