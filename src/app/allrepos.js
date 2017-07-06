@@ -10,10 +10,11 @@ export class Allrepos extends Component {
 
   constructor() {
     super();
-    this.state = {allReps: [], reorderRepo: [], currentCommits: [], currentRep: []};
+    this.state = {allReps: [], reorderRepo: [], currentCommits: [], currentRep: [], limit: 5, showLoad: true};
     this.reorderRepo = this.reorderRepo.bind(this);
     this.getRepos = this.getRepos.bind(this);
     this.handleRepoDetail = this.handleRepoDetail.bind(this);
+    this.handleLoadMore = this.handleLoadMore.bind(this);
   }
 
   componentWillMount() {
@@ -27,7 +28,7 @@ export class Allrepos extends Component {
           <Repos key={i} index={i} repo={repo} onClick={this.handleRepoDetail}/>
         ))}
         <Reposdetails details={this.state.currentRep}/>
-        <Commits commits={this.state.currentCommits}/>
+        <Commits showLoad={this.state.showLoad} commits={this.state.currentCommits} onClick={this.handleLoadMore} limit={this.state.limit}/>
       </div>
     );
   }
@@ -50,6 +51,9 @@ export class Allrepos extends Component {
     });
   }
   handleRepoDetail(e) {
+    if (this.state.showLoad === false) {
+      this.setState({showLoad: !this.state.showLoad});
+    }
     const repoIndex = e.target.getAttribute('id');
     this.setState({currentRep: this.state.reorderRepo[repoIndex]});
     axios
@@ -57,5 +61,14 @@ export class Allrepos extends Component {
     .then(response => {
       this.setState({currentCommits: response.data, limit: 5});
     });
+  }
+  handleLoadMore() {
+    if (this.state.limit >= this.state.currentCommits.length) {
+      this.setState({showLoad: !this.state.showLoad});
+    } else {
+      this.setState({
+        limit: this.state.limit + 20
+      });
+    }
   }
 }
