@@ -3,6 +3,7 @@ import {Repos} from './repos';
 import {Reposdetails} from './reposdetails';
 import {Commits} from './commits';
 import axios from 'axios';
+import {browserHistory} from 'react-router';
 
 const allRepos = 'https://api.github.com/users/globocom/repos?client_id=64d7b668317a1949cd57&client_secret=551f8cb1a1118dd2df05d943343efd4c5980c258';
 
@@ -32,6 +33,9 @@ export class Allrepos extends Component {
       </div>
     );
   }
+  onNavigation() {
+    browserHistory.push(this.state.currentRep.name);
+  }
   getRepos() {
     axios
     .get(allRepos)
@@ -54,6 +58,7 @@ export class Allrepos extends Component {
     if (this.state.showLoad === false) {
       this.setState({showLoad: !this.state.showLoad});
     }
+    this.onNavigation();
     const repoIndex = e.target.getAttribute('id');
     this.setState({currentRep: this.state.reorderRepo[repoIndex]});
     axios
@@ -72,3 +77,8 @@ export class Allrepos extends Component {
     }
   }
 }
+
+Allrepos.propTypes = {
+  id: React.PropTypes.object,
+  params: React.PropTypes.object
+};
