@@ -135,6 +135,10 @@ blockquote, q {
     -webkit-align-self: flex-start;
     -ms-flex-item-align: start;
     align-self: flex-start;
+    button {
+     margin-top: 15px;
+     padding:15px;
+    }
     ul {
         li {
             padding-top: 2px;

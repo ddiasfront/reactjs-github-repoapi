@@ -104,7 +104,11 @@ export class Allrepos extends Component {
   }
   handleLoadMore() {
     // HANDLER DO BOTAO CARREGAR MAIS SE FOR MAIOR = QUE O NUMERO DE REPOS HIDE CARREGAR MAIS 20 NO CLICK
-    if (this.state.limit >= this.state.commitsUrl.length) {
+    this.commitCounter();
+    console.log(this.state.limit + 5);
+  }
+  commitCounter() {
+    if ((this.state.limit) >= (this.state.commitsUrl.length)) {
       this.setState({showLoad: !this.state.showLoad});
     } else {
       this.setState({
