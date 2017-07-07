@@ -1,6 +1,63 @@
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-size: 100%;
+	vertical-align: baseline;
+}
+/* remember to define focus styles! */
+:focus {
+	outline: 0;
+}
+body {
+	line-height: 1;
+	color: black;
+	background: white;
+    margin: 0;
+    font-family: 'Zilla Slab', serif;
+    font-size: 100%;
+    -webkit-text-size-adjust: 100%;
+    /* Font varient */
+    font-variant-ligatures: none;
+    -webkit-font-variant-ligatures: none;
+    /* Smoothing */
+    text-rendering: optimizeLegibility;
+    -moz-osx-font-smoothing: grayscale;
+    font-smoothing: antialiased;
+    -webkit-font-smoothing: antialiased;
+    text-shadow: rgba(0, 0, 0, .01) 0 0 1px;
+}
+ol, ul {
+	list-style: none;
+}
+/* tables still need 'cellspacing="0"' in the markup */
+table {
+	border-collapse: separate;
+	border-spacing: 0;
+}
+caption, th, td {
+	text-align: left;
+	font-weight: normal;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: "";
+}
+blockquote, q {
+	quotes: "" "";
+}
+
 .maincontainer {
-	width: 100vw;
-	height: 100vh;
+	width: 100%;
+	min-height: 100vh;
     display: -ms-flexbox;
     display: -webkit-flex;
     display: flex;
@@ -21,11 +78,94 @@
     align-items: center;	
 }
 .lista {
-	width: 50vw;
-	height: 100vh;
-	background-color: lightblue;
+    h1 {
+    padding-left: 12.5%;
+    font-size: 1.5rem;
+    padding-top: 25px;
+    padding-bottom: 25px;
+    border-bottom: 1px solid #bfe4e4;
+    font-weight: bold;
+    }
+    a {
+    color: white;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    width: 87%;
+    display: flex;
+    align-items: center;
+    height: 2.45vh;
+    border-bottom: 1px solid #bfe4e4;
+    border-right: none;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-weight: regular;
+    padding-left: 12.5%;
+    }
+	width: 30%;
+	background-color: #00b9f1;
+    font-size: 14px;
+    font-weight: regular;
+    min-height: 100vh;
+    -webkit-order: 0;
+    -ms-flex-order: 0;
+    order: 0;
+    -webkit-flex: 0 1 auto;
+    -ms-flex: 0 1 auto;
+    flex: 0 1 auto;
+    -webkit-align-self: flex-start;
+    -ms-flex-item-align: start;
+    align-self: flex-start;
+    .bgfixxer {
+        position: fixed;
+        width: 30%;
+	    background-color: lightblue;
+        height: 300vh;
+        z-index: -2;
+    }
+}
+.description {
+	width: 70%;
+    font-size: 12px;
+    -webkit-order: 0;
+    -ms-flex-order: 0;
+    order: 0;
+    -webkit-flex: 0 1 auto;
+    -ms-flex: 0 1 auto;
+    flex: 0 1 auto;
+    -webkit-align-self: flex-start;
+    -ms-flex-item-align: start;
+    align-self: flex-start;
+    ul {
+        li {
+            padding-top: 2px;
+            padding-bottom: 2px;
+        }
+    }
+    .descontainer {
+        padding-left: 7.5%;
+        padding-top: 25px;
+    }
+    h2 {
+        font-size: 1.5rem;
+        padding-bottom: 25px;
+    }
+        h4 {
+        padding-top: 20px;
+        font-size: 1.2rem;
+        padding-bottom: 5px;
+        }
+    article {
+        h3, h4  {
+        font-weight: bold;
+        font-size: 1.2rem;
+        padding-bottom: 5px;
+        padding-top: 5px;
+        }
+        p {
+            padding-bottom: 10px;
+            font-size: 1.1rem;
+        }
+    }
 
-}
-.detalhes {
-	width: 50vw;
-}
+    }
+    

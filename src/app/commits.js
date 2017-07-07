@@ -4,16 +4,14 @@ export class Commits extends Component {
   render() {
     return (
       <div>
-        <h1>Commits</h1>
-        {this.props.commits.slice(0, this.props.limit).map((commit, i) => (
-          <div key={i}>
-            <ul>
-              <li>
-                <a id={i} value={i} >{commit.commit.message}</a>
-              </li>
-            </ul>
-          </div>
-        ))}
+        <h4>Commits</h4>
+        <ul>
+          {this.props.commits.slice(0, this.props.limit).map((commit, i) => (
+            <li key={i}className="commit">
+              <a id={i} value={i} >{commit.commit.message}</a>
+            </li>
+          ))}
+        </ul>
         {this.props.showLoad && <button onClick={this.props.onClick}>W00T</button>}
       </div>
     );

@@ -25,13 +25,21 @@ export class Allrepos extends Component {
   }
   render() {
     return (
-      <div>
-        <p>{this.props.params.repoId}</p>
-        {this.state.requestOrganizado.map((repo, i) => (
-          <Repos key={i} index={i} repo={repo} onClick={this.handleRepoDetail}/>
-        ))}
-        <Reposdetails details={this.state.detalhesAtual}/>
-        <Commits showLoad={this.state.showLoad} commits={this.state.commitsUrl} onClick={this.handleLoadMore} limit={this.state.limit}/>
+      <div className="maincontainer">
+        <aside className="lista">
+          <div className="bgfixxer"/>
+          <h1>Repositórios</h1>
+          {this.state.requestOrganizado.map((repo, i) => (
+            <Repos key={i} index={i} repo={repo} onClick={this.handleRepoDetail}/>
+          ))}
+        </aside>
+        <div className="description">
+          <div className="descontainer">
+            <h2>Detalhes</h2>
+            <Reposdetails details={this.state.detalhesAtual}/>
+            <Commits showLoad={this.state.showLoad} commits={this.state.commitsUrl} onClick={this.handleLoadMore} limit={this.state.limit}/>
+          </div>
+        </div>
       </div>
     );
   }
