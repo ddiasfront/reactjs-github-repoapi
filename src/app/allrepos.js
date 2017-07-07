@@ -51,6 +51,8 @@ export class Allrepos extends Component {
     });
   }
   getCommits() {
+    // SE O PARAMETRO NAO FOR PASSADO PELO ROTEADOR REQUEST COM OS COMMITIS INICIAIS
+    // A FUNCAO DE RENDERIZAR OS COMMITS INICIAIS CASO CONTRARIO RENDERIZAR OS COMMITS RELACIONADOS AO PARAMETRO ENVIADO
     if (this.props.params.repoId === undefined) {
       this.renderinitialCommits();
     } else {
@@ -70,7 +72,7 @@ export class Allrepos extends Component {
     });
   }
   requestOrganizado() {
-    // SETAR OS DETALHES PARA O PRIMEIRO ITEM DO REQUEST ORGANIZADO
+    // SETAR OS DETALHES PARA O PRIMEIRO ITEM DO REQUEST ORGANIZADO OU ENTAO FILTRAR A ARRAY ORGANIZADA COM O PARAMETRO DO ROUTER
     if (this.props.params.repoId === undefined) {
       this.setState({detalhesAtual: this.state.requestOrganizado[0]});
     } else {
@@ -79,9 +81,11 @@ export class Allrepos extends Component {
     }
   }
   handleRepoDetail(e) {
+    // HANDLER DO BOTAO CARREGAR SHOW E HIDE COM TRUE E FALSE
     if (this.state.showLoad === false) {
       this.setState({showLoad: !this.state.showLoad});
     }
+    // HANDLER DO CLICK DOS REPOSITORIOS
     const repoIndex = e.target.getAttribute('id');
     this.setState({detalhesAtual: this.state.requestOrganizado[repoIndex]});
     axios
@@ -91,6 +95,7 @@ export class Allrepos extends Component {
     });
   }
   handleLoadMore() {
+    // HANDLER DO BOTAO CARREGAR MAIS SE FOR MAIOR = QUE O NUMERO DE REPOS HIDE CARREGAR MAIS 20 NO CLICK
     if (this.state.limit >= this.state.commitsUrl.length) {
       this.setState({showLoad: !this.state.showLoad});
     } else {
