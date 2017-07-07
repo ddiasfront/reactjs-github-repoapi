@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 
 export class Reposdetails extends Component {
-
   render() {
     return (
       <ul>

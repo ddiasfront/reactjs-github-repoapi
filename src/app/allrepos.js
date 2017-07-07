@@ -3,76 +3,95 @@ import {Repos} from './repos';
 import {Reposdetails} from './reposdetails';
 import {Commits} from './commits';
 import axios from 'axios';
-import {browserHistory} from 'react-router';
 
+// VARIAVEL URL REQUEST
 const allRepos = 'https://api.github.com/users/globocom/repos?client_id=64d7b668317a1949cd57&client_secret=551f8cb1a1118dd2df05d943343efd4c5980c258';
+const commitSecureurl = '/commits?client_id=64d7b668317a1949cd57&client_secret=551f8cb1a1118dd2df05d943343efd4c5980c258';
 
 export class Allrepos extends Component {
+
   constructor() {
     super();
-    this.state = {allReps: [], reorderRepo: [], currentCommits: [], currentRep: [], limit: 5, showLoad: true, repoState: []};
-    this.reorderRepo = this.reorderRepo.bind(this);
+    this.state = {primeiroRequest: [], requestOrganizado: [], detalhesAtual: [], limit: 5, showLoad: true, commitsUrl: []};
+    this.requestOrganizado = this.requestOrganizado.bind(this);
     this.getRepos = this.getRepos.bind(this);
     this.handleRepoDetail = this.handleRepoDetail.bind(this);
     this.handleLoadMore = this.handleLoadMore.bind(this);
+    this.renderinitialCommits = this.renderinitialCommits.bind(this);
   }
+
   componentWillMount() {
     this.getRepos();
   }
   render() {
     return (
-      <div className="maincontainer">
-        <div className="lista">
-          {this.state.reorderRepo.map((repo, i) => (
-            <Repos key={i} index={i} repo={repo} onClick={this.handleRepoDetail}/>
-          ))}
-        </div>
-        <div className="detalhes">
-          <Reposdetails details={this.state.currentRep}/>
-          <Commits showLoad={this.state.showLoad} commits={this.state.currentCommits} onClick={this.handleLoadMore} limit={this.state.limit}/>
-        </div>
+      <div>
+        <p>{this.props.params.repoId}</p>
+        {this.state.requestOrganizado.map((repo, i) => (
+          <Repos key={i} index={i} repo={repo} onClick={this.handleRepoDetail}/>
+        ))}
+        <Reposdetails details={this.state.detalhesAtual}/>
+        <Commits showLoad={this.state.showLoad} commits={this.state.commitsUrl} onClick={this.handleLoadMore} limit={this.state.limit}/>
       </div>
     );
   }
-  onNavigation() {
-    browserHistory.push(this.state.repoState[0].name);
-  }
   getRepos() {
+    // PRIMEIRO REQUEST PARA A API
     axios
     .get(allRepos)
     .then(response => {
-      this.setState({allReps: response.data});
-      this.setState({repoState: this.state.allReps.filter(repo => repo.name === this.props.params.repoId)});
-      console.log(this.state.repoState[0]);
-      this.reorderRepo();
+      // SETAR O STATE PARA O PRIMEIRO REQUEST COM TODOS OS REPOSITORIOS
+      this.setState({primeiroRequest: response.data});
+      // SETAR O STATE DO OBJETO PARA ESTE ARRAY REORGANIZADO POR ESTRELAS
+      this.setState({requestOrganizado: this.state.primeiroRequest.sort((a, b) => b.stargazers_count - a.stargazers_count)});
+      // CHAMAR FUNCAO ORGANIZADORA PARA ORGANIZAR O PRIMEIRO REQUEST
+      this.requestOrganizado();
+      // CHAMAR COMMITS DO ROTEADOR AO MUDAR AO MUDAR O STATE
+      this.getCommits();
     });
   }
-  reorderRepo() {
-    const repoStars = this.state.allReps.sort((a, b) => b.stargazers_count - a.stargazers_count);
-    this.setState({reorderRepo: repoStars});
-    this.setState({repoState: this.state.reorderRepo.filter(person => person.name === this.props.params.repoId)});
-    this.setState({currentRep: this.state.repoState[0]});
+  getCommits() {
+    if (this.props.params.repoId === undefined) {
+      this.renderinitialCommits();
+    } else {
+      axios
+      .get('https://api.github.com/repos/globocom/' + this.props.params.repoId + commitSecureurl)
+      .then(response => {
+        this.setState({commitsUrl: response.data});
+      });
+    }
+  }
+  renderinitialCommits() {
+    // FUNCAO PARA RENDERIZAR OS COMMITS INICIAIS ESPERANDO NAO RECEBER NENNHUM VALOR DO ROTEADOR E FILTRANDO O REQUEST PARA RECEBER ITEM INICIAL
     axios
-    .get(this.state.repoState[0].url + '/commits?client_id=64d7b668317a1949cd57&client_secret=551f8cb1a1118dd2df05d943343efd4c5980c258')
+    .get('https://api.github.com/repos/globocom/' + this.state.detalhesAtual.name + commitSecureurl)
     .then(response => {
-      this.setState({currentCommits: response.data});
+      this.setState({commitsUrl: response.data});
     });
+  }
+  requestOrganizado() {
+    // SETAR OS DETALHES PARA O PRIMEIRO ITEM DO REQUEST ORGANIZADO
+    if (this.props.params.repoId === undefined) {
+      this.setState({detalhesAtual: this.state.requestOrganizado[0]});
+    } else {
+      const renderRepo = this.state.requestOrganizado.filter(repo => repo.name === this.props.params.repoId);
+      this.setState({detalhesAtual: renderRepo[0]});
+    }
   }
   handleRepoDetail(e) {
     if (this.state.showLoad === false) {
       this.setState({showLoad: !this.state.showLoad});
     }
-    this.onNavigation();
     const repoIndex = e.target.getAttribute('id');
-    this.setState({currentRep: this.state.reorderRepo[repoIndex]});
+    this.setState({detalhesAtual: this.state.requestOrganizado[repoIndex]});
     axios
-    .get(this.state.reorderRepo[repoIndex].url + '/commits?client_id=64d7b668317a1949cd57&client_secret=551f8cb1a1118dd2df05d943343efd4c5980c258')
+    .get(this.state.requestOrganizado[repoIndex].url + commitSecureurl)
     .then(response => {
-      this.setState({currentCommits: response.data, limit: 5});
+      this.setState({commitsUrl: response.data, limit: 5});
     });
   }
   handleLoadMore() {
-    if (this.state.limit >= this.state.currentCommits.length) {
+    if (this.state.limit >= this.state.commitsUrl.length) {
       this.setState({showLoad: !this.state.showLoad});
     } else {
       this.setState({
