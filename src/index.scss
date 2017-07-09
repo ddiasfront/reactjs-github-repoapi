@@ -85,6 +85,9 @@ blockquote, q {
     padding-bottom: 25px;
     border-bottom: 1px solid #bfe4e4;
     font-weight: bold;
+        @media screen and (max-width: 768px) {
+            font-size: 1rem;
+        }
     }
     a {
     color: white;
@@ -100,6 +103,9 @@ blockquote, q {
     text-transform: uppercase;
     font-weight: regular;
     padding-left: 12.5%;
+        @media screen and (max-width: 768px) {
+            font-size: 12px;
+        }
     }
 	width: 30%;
 	background-color: #00b9f1;
@@ -118,9 +124,10 @@ blockquote, q {
     .bgfixxer {
         position: fixed;
         width: 30%;
-	    background-color: lightblue;
+	    background-color: #00b9f1;
         height: 300vh;
         z-index: -2;
+        
     }
 }
 .description {
@@ -138,6 +145,10 @@ blockquote, q {
     button {
      margin-top: 15px;
      padding:15px;
+     background-color: #00b9f1;
+     color: #fff;
+     font-weight: bold;
+     border: 1px solid lightslategray;
     }
     ul {
         li {
@@ -153,11 +164,17 @@ blockquote, q {
     h2 {
     font-size: 1.5rem;
     padding-bottom: 25px;
+        @media screen and (max-width: 768px) {
+            font-size: 1rem;
+        }
     }
     h4 {
     padding-top: 20px;
     font-size: 1.2rem;
     padding-bottom: 5px;
+        @media screen and (max-width: 768px) {
+            font-size: 1rem;
+        }
     }
     article {
         h3, h4  {
@@ -165,10 +182,16 @@ blockquote, q {
         font-size: 1.2rem;
         padding-bottom: 5px;
         padding-top: 5px;
+        @media screen and (max-width: 768px) {
+            font-size: 12px;
+        }
         }
         p {
         padding-bottom: 10px;
         font-size: 1.1rem;
+        @media screen and (max-width: 768px) {
+            font-size: 12px;
+        }
         }
     }
 }
