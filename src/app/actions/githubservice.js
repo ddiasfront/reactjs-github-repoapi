@@ -31,7 +31,6 @@ const githubService = {
     });
   },
   getCommitsdata(reponame) {
-    console.log(reponame);
     return githubService.simpleReq('https://api.github.com/repos/globocom/' + reponame + commitSecureurl)
     .then(response => {
       return {
